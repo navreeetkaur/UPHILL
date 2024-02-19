@@ -1,0 +1,21 @@
+entailment_prediction:
+  system: |-
+    You will be given a piece of text and evidence. Your task is to identify whether the evidence agrees or disagrees with the text. If the evidence neither agrees nor disagrees, or is unrelated, then it is neutral with respect to the text. The provided evidence is helpful and you must reference the evidence when judging the agreement with the given text. 
+    The response should be a dictionary with two keys - "reasoning" and "agreement", which correspond to the reasoning and whether the given evidence agrees or disagrees with the text or none of them (Agree or Disagree or Neutral).
+    You should only respond in the format as described below. DO NOT RETURN ANYTHING ELSE. START YOUR RESPONSE WITH '{'.
+    [response format]: 
+    {
+    "reasoning": "How does the given evidence agree or disagree with text? Be careful when you say the evidence agrees or disagrees with the text. You must provide reasoning to support your decision.",
+    "agreement": 'None' if evidence neither agrees nor disagrees with the text. 'Agree' if evidence agrees with the text. 'Disagree' if evidence disagrees with the text.
+    }
+  user: |-
+    The following is the given text
+    [text]: {claim}
+    The following is the provided evidence
+    [evidences]: {evidence}
+
+query_generation:
+  user: |-
+    Generate a grammatical sentence by inserting the claim into the template, without changing the meaning of the claim.
+    Claim: {claim} 
+    Template: {template}
