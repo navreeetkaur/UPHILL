@@ -2,7 +2,7 @@
 
 ## Data Contents
 
-Our data is hosted [here](https://drive.google.com/drive/folders/11fKzoyxSDad6h8H2ZnWox22pPJeqDfC5). The data is built on top of the [PubHealth](https://arxiv.org/abs/2010.09926) and [Monant Medical Misinformation](https://dl.acm.org/doi/abs/10.1145/3477495.3531726) datasets.
+Our data is hosted [here](https://drive.google.com/drive/folders/13H2-dA0y8eOChwI8O1AqTJTqAr1raPXf). The data is built on top of the [PubHealth](https://arxiv.org/abs/2010.09926) and [Monant Medical Misinformation](https://dl.acm.org/doi/abs/10.1145/3477495.3531726) datasets.
 - `UPHILL.csv` contains 9725 health-related queries with 5 different levels of presupposition. Each claim has a veracity associated with it. Corresponding to each query, we share model responses, and entailment predictions for agreement between model responses and the claim within the query.
 - `queries.csv` contains 9725 queries, which could be used to evaluate other models.
 
