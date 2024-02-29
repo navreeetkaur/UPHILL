@@ -70,3 +70,45 @@ Usage:
 ```
 python generate_queries.py -file claims.csv -claims_col claim -outfile queries
 ```
+
+## Citation
+
+If you find our codebase and dataset beneficial, please cite our work:
+
+```
+@misc{kaur2023evaluating,
+      title={Evaluating Large Language Models for Health-related Queries with Presuppositions}, 
+      author={Navreet Kaur and Monojit Choudhury and Danish Pruthi},
+      year={2023},
+      eprint={2312.08800},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+Please also make sure to credit and cite the creators of PubHealth and Monant Medical Misinformation datasets, the dataset that we build ours upon:
+
+```
+@misc{kotonya2020explainable,
+      title={Explainable Automated Fact-Checking for Public Health Claims}, 
+      author={Neema Kotonya and Francesca Toni},
+      year={2020},
+      eprint={2010.09926},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+```
+@inproceedings{srba2022monant,
+  title={Monant medical misinformation dataset: Mapping articles to fact-checked claims},
+  author={Srba, Ivan and Pecher, Branislav and Tomlein, Matus and Moro, Robert and Stefancova, Elena and Simko, Jakub and Bielikova, Maria},
+  booktitle={Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+  pages={2949--2959},
+  year={2022}
+}
+```
+
+## Contact
+
+If you have any questions, please email `navreetkaur[at]iisc.ac.in`. Thanks!
