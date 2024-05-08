@@ -1,8 +1,8 @@
 import yaml
-import openai
+from openai import OpenAI
 
 with open('OPENAI_API_KEY', 'r') as file:
-    openai.api_key = file.readline().strip()
+    client = OpenAI(api_key=file.readline().strip())
 
 with open('prompts.yaml', 'r') as file:
     prompts = yaml.load(file, Loader=yaml.FullLoader)

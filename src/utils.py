@@ -7,8 +7,10 @@ import ast
 import logging
 import re
 import config
+from config import client
 
 def get_accuracy(df):
+    df.loc[:, 'claim_veracity'] = df['claim_veracity'].map(lambda x: str(x).lower())
     numerator = len(df[ (df['claim_veracity']=='true') & (df['entailment_prediction']=='agree') ]) + len(df[ (df['claim_veracity']=='false') & (df['entailment_prediction']=='disagree') ]) +  len(df[ (df['claim_veracity']=='mixture') & (df['entailment_prediction']=='neutral') ])
     denominator = len(df[df['claim_veracity'].isin(['true', 'false', 'mixture'])])
     acc = 100*(numerator/denominator)
@@ -73,30 +75,29 @@ async def get_entailment_response(config, messages):
     completion = None
     while completion is None:
         try:
-            completion = openai.ChatCompletion.create(
+            completion = client.chat.completions.create(
                 model=config['model_name'],
                 messages=messages,
                 max_tokens=config['max_tokens'],
                 temperature=config['temperature'],
-                top_p=config['top_p'],
-                request_timeout=config['request_timeout'],
+                top_p=config['top_p']
             )
-        except openai.error.RateLimitError:
+        except openai.RateLimitError:
             print('Rate limit error, waiting for 40 second...')
             await asyncio.sleep(40)
-        except openai.error.APIError:
+        except openai.APIError:
             print('API error, waiting for 1 second...')
             await asyncio.sleep(1)
-        except openai.error.Timeout:
+        except openai.Timeout:
             print('Timeout error, waiting for 1 second...')
             await asyncio.sleep(1)
-        except openai.error.ServiceUnavailableError:
+        except openai.ServiceUnavailableError:
             print('Service unavailable error, waiting for 3 second...')
             await asyncio.sleep(3)
-        except openai.error.APIConnectionError:
+        except openai.APIConnectionError:
             print('API Connection error, waiting for 40 second...')
             await asyncio.sleep(40)
-        except openai.error.InvalidRequestError:
+        except openai.InvalidRequestError:
             print('Invalid Request Error, trying by pruning the input prompt...')
             # reduce the evidence length in 'user' message
             if messages[1]['role'] != 'user':
@@ -118,7 +119,7 @@ def get_gpt_response(model_name, prompt, num_responses, get_chat_completion):
     for delay_secs in (2**x for x in range(0, 6)):
         try:
             if get_chat_completion:
-                completion = openai.ChatCompletion.create(
+                completion = client.chat.completions.create(
                     model=model_name,
                     messages=[
                         {"role": "user", "content": prompt}
@@ -127,13 +128,13 @@ def get_gpt_response(model_name, prompt, num_responses, get_chat_completion):
                 model_responses = [
                     choice.message.content for choice in completion.choices]
             else:
-                completion = openai.Completion.create(
+                completion = client.completions.create(
                     model=model_name, prompt=prompt, max_tokens=2000, n=num_responses)
                 model_responses = [
                     choice.text for choice in completion.choices]
             break
         # exceptions for which we should wait a few seconds
-        except (openai.error.APIError, openai.error.Timeout, openai.error.APIConnectionError) as e:
+        except (openai.APIError, openai.Timeout, openai.APIConnectionError) as e:
             randomness_collision_avoidance = random.randint(0, 1000) / 1000.0
             sleep_dur = delay_secs + randomness_collision_avoidance
             print(
@@ -142,7 +143,7 @@ def get_gpt_response(model_name, prompt, num_responses, get_chat_completion):
             continue
         # wait for a few mins for errors due to maintenance, system upgrade,
         # server failure, high traffic, rate limit exceeded
-        except (openai.error.ServiceUnavailableError, openai.error.RateLimitError) as e:
+        except (openai.ServiceUnavailableError, openai.RateLimitError) as e:
             randomness_collision_avoidance = random.randint(0, 1000) / 1000.0
             sleep_dur = (60*delay_secs) + randomness_collision_avoidance
             print(
@@ -150,7 +151,7 @@ def get_gpt_response(model_name, prompt, num_responses, get_chat_completion):
             time.sleep(sleep_dur)
             continue
         # these errors should not occur ideally if code and API key are fine
-        except (openai.error.InvalidRequestError, openai.error.AuthenticationError) as e:
+        except (openai.InvalidRequestError, openai.AuthenticationError) as e:
             print(f"OpenAI error not supposed to occur: {e}")
             break
     return model_responses
