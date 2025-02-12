@@ -120,4 +120,4 @@ Please also make sure to credit and cite the creators of PubHealth and Monant Me
 
 ## Contact
 
-If you have any questions, please email `navreetkaur[at]iisc.ac.in`. Thanks!
+If you have any questions, please email `kanavr[at]uw.edu`. Thanks!
