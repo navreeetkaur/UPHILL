@@ -76,13 +76,22 @@ python generate_queries.py -file claims.csv -claims_col claim -outfile queries
 If you find our codebase and dataset beneficial, please cite our work:
 
 ```
-@misc{kaur2023evaluating,
-      title={Evaluating Large Language Models for Health-related Queries with Presuppositions}, 
-      author={Navreet Kaur and Monojit Choudhury and Danish Pruthi},
-      year={2023},
-      eprint={2312.08800},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{kaur-etal-2024-evaluating,
+    title = "Evaluating Large Language Models for Health-related Queries with Presuppositions",
+    author = "Kaur, Navreet  and
+      Choudhury, Monojit  and
+      Pruthi, Danish",
+    editor = "Ku, Lun-Wei  and
+      Martins, Andre  and
+      Srikumar, Vivek",
+    booktitle = "Findings of the Association for Computational Linguistics: ACL 2024",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.findings-acl.850/",
+    doi = "10.18653/v1/2024.findings-acl.850",
+    pages = "14308--14331"
 }
 ```
 
